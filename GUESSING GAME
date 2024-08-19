@@ -1,0 +1,51 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Guess {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Random randomNo = new Random();
+        int minNo = 1;
+        int maxNo = 100;
+        int maxAttempts = 5;
+        int rounds = 1;
+        int totalScore = 0;
+        String playAgain = "yes";
+
+        while (playAgain.equalsIgnoreCase("yes")) {
+            System.out.println("Round " + rounds + "!");
+            int numberToGuess = randomNo.nextInt(maxNo - minNo + 1) + minNo;
+            int attempts = 0;
+            boolean guessedCorrectly = false;
+
+            while (attempts < maxAttempts && !guessedCorrectly) {
+                System.out.print("Enter your guess (between " + minNo + " and " + maxNo + "): ");
+                int userGuess = sc.nextInt();
+                attempts++;
+
+                if (userGuess == numberToGuess) {
+                    System.out.println("Congratulations! You guessed the number!");
+                    guessedCorrectly = true;
+                    totalScore += (maxAttempts - attempts + 1);
+                } else if (userGuess < numberToGuess) {
+                    System.out.println("Too low!");
+                } else {
+                    System.out.println("Too high!");
+                }
+            }
+
+            if (!guessedCorrectly) {
+                System.out.println("Sorry, you've run out of attempts. The correct number was " + numberToGuess + ".");
+            }
+
+            System.out.println("Your current score: " + totalScore);
+            System.out.print("Do you want to play another round? (yes/no): ");
+            playAgain = sc.next();
+            rounds++;
+        }
+
+        System.out.println("Thanks for playing! Your total score: " + totalScore);
+        sc.close();
+    }
+}
